@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 @Controller
 public class MessageController {
     private final MessageService messageService;
@@ -48,7 +51,7 @@ public class MessageController {
     @PostMapping("/addmessage")
     public String addMessage(@ModelAttribute("message") Message message, Model model) {
         if (loginService.isLogged()) {
-            message.setTime("heure par défaut");
+            message.setTime(LocalDateTime.now());
             System.out.println(loginService.getUserBySession());
             message.setUser(loginService.getUserBySession());
             messageService.createMessage(message);
