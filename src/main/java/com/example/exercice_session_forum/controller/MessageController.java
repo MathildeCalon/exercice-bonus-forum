@@ -42,6 +42,7 @@ public class MessageController {
     @PostMapping("/addmessage")
     public String addMessage(@ModelAttribute("message") Message message, Model model) {
         message.setTime("heure par défaut");
+        System.out.println(loginService.getUserBySession());
         message.setUser(loginService.getUserBySession());
         messageService.createMessage(message);
         return "redirect:/messages";

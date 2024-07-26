@@ -33,6 +33,8 @@ public class LoginService {
 
     public Utilisateur getUserBySession(){
         int userId = (int) session.getAttribute("userId");
+        System.out.println(session.getAttribute("userId"));
+        System.out.println(userService.getById(userId));
         return userService.getById(userId);
     }
 
