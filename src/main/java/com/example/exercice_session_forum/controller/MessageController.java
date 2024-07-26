@@ -16,36 +16,45 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class MessageController {
     private final MessageService messageService;
     private final LoginService loginService;
-    private final UserService userService;
 
     @Autowired
     HttpSession session;
 
-    public MessageController(MessageService messageService, LoginService loginService,UserService userService) {
+    public MessageController(MessageService messageService, LoginService loginService) {
         this.messageService = messageService;
         this.loginService = loginService;
-        this.userService = userService;
     }
 
     @GetMapping("/messages")
     public String messages(Model model) {
-        model.addAttribute("messages", messageService.getAllMessages());
-        return "messageList";
+        if (loginService.isLogged()) {
+            model.addAttribute("messages", messageService.getAllMessages());
+            return "messageList";
+        } else {
+            return "login/login";
+        }
     }
 
     @GetMapping("/addmessage")
     public String addMessage(Model model) {
-        model.addAttribute("message", new Message());
-        return "addMessage";
+        if (loginService.isLogged()) {
+            model.addAttribute("message", new Message());
+            return "addMessage";
+        } else {
+            return "login/login";
+        }
     }
 
     @PostMapping("/addmessage")
     public String addMessage(@ModelAttribute("message") Message message, Model model) {
-        message.setTime("heure par défaut");
-        System.out.println(loginService.getUserBySession());
-        message.setUser(loginService.getUserBySession());
-        messageService.createMessage(message);
-        return "redirect:/messages";
+        if (loginService.isLogged()) {
+            message.setTime("heure par défaut");
+            System.out.println(loginService.getUserBySession());
+            message.setUser(loginService.getUserBySession());
+            messageService.createMessage(message);
+            return "redirect:/messages";
+        } else {
+            return "login/login";
+        }
     }
-
 }
