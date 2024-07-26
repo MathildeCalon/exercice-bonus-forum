@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Ajouter un message</title>
+</head>
+<body>
+
+<nav>
+    <a th:href="@{/logout}">Se déconnecter</a>
+    <a th:href="@{/}">Accueil</a>
+    <a th:href="@{/messages}">Tous les messages</a>
+</nav>
+
+<h1>Ajouter un message</h1>
+<form th:action="@{/addmessage}" method="post" th:object="${message}">
+    <div>
+        <label for="message">Votre message :</label>
+        <input type="text" name="message" id="message" th:field="*{content}">
+    </div>
+    <button>Ajouter le message</button>
+</form>
+
+</div>
+</body>
+</html>
